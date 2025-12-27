@@ -1,11 +1,14 @@
 import type { NextConfig } from 'next';
-import path from 'path';
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['khaleel-editor'],
+
   typescript: {
     ignoreBuildErrors: true,
   },
   
+  
+  devIndicators: false, 
   images: {
     remotePatterns: [
       {
@@ -22,15 +25,6 @@ const nextConfig: NextConfig = {
         hostname: 'lh3.googleusercontent.com', 
       }
     ],
-  },
-
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'react': path.resolve(__dirname, 'node_modules/react'),
-      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
-    };
-    return config;
   },
 };
 
