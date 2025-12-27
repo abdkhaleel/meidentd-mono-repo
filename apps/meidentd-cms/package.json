@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "//comment": "Build the editor library first, then build the Next.js app",
-    "build": "cd ../../packages/khaleel-editor && npm run build && cd ../../apps/meiden-cms && npx prisma generate && next build --no-lint",
+    "build": "cd ../../packages/khaleel-editor && npm run build && cd ../../apps/meidentd-cms && npx prisma generate && next build --no-lint",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate"
