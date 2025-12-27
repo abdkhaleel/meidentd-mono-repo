@@ -8,7 +8,6 @@ export default Node.create({
             width: {
                 default: '50%',
                 renderHTML: (attributes) => ({
-                    // We don't rely on this style for layout, but we keep it for metadata
                     'data-width': attributes.width,
                 }),
             },

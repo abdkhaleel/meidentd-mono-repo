@@ -3,7 +3,6 @@ import { Bold, Italic, Underline, Strikethrough, Code, Heading1, Heading2, Headi
 const Toolbar = ({ editor, onUpload }) => {
     if (!editor)
         return null;
-    // Helper to determine active state
     const isActive = (type, opts) => editor.isActive(type, opts) ? 'is-active' : '';
     const addImage = () => {
         const url = window.prompt('Enter image URL:');

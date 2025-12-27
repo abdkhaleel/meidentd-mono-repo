@@ -9,7 +9,6 @@ export default forwardRef((props, ref) => {
             props.command(item);
         }
     };
-    // Handle Arrow Keys and Enter
     useImperativeHandle(ref, () => ({
         onKeyDown: ({ event }) => {
             if (event.key === 'ArrowUp') {

@@ -4,7 +4,7 @@ import CalloutComponent from '../components/CalloutComponent';
 export default Node.create({
     name: 'callout',
     group: 'block',
-    content: 'inline*', // Allows text inside
+    content: 'inline*',
     addAttributes() {
         return {
             type: {

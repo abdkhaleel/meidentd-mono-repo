@@ -1,7 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React from 'react';
 import '../styles.scss';
-// 1. Helper to render Inline Styles
 const renderTextNodes = (node) => {
     if (!node.content)
         return node.text || '';
@@ -27,7 +26,6 @@ const renderTextNodes = (node) => {
         return element;
     });
 };
-// Helper to handle image errors
 const ImageRenderer = ({ block }) => {
     const [error, setError] = React.useState(false);
     const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
@@ -37,7 +35,6 @@ const ImageRenderer = ({ block }) => {
     }
     return (_jsx("div", { className: "my-4 flex", style: { justifyContent: justifyMap[alignment] || 'flex-start' }, children: _jsx("img", { src: block.attrs.src, alt: block.attrs.alt || '', style: { width: block.attrs.width || '100%', maxWidth: '100%' }, className: "rounded-lg h-auto", onError: () => setError(true), referrerPolicy: "no-referrer" }) }));
 };
-// 2. Recursive Block Renderer
 const renderBlock = (block, index) => {
     const getStyles = (b) => {
         const styles = {};
@@ -81,19 +78,13 @@ const renderBlock = (block, index) => {
     if (block.type === 'image') {
         return _jsx(ImageRenderer, { block: block }, index);
     }
-    // --- YOUTUBE (UPDATED) ---
     if (block.type === 'youtube') {
         const rawSrc = block.attrs.src || '';
-        // ✅ Logic to extract Video ID from various YouTube URL formats:
-        // 1. Standard: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-        // 2. Share: https://youtu.be/dQw4w9WgXcQ
-        // 3. Embed: https://www.youtube.com/embed/dQw4w9WgXcQ
         const match = rawSrc.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
         const videoId = (match && match[2].length === 11) ? match[2] : null;
-        // Construct the safe embed URL
         const embedSrc = videoId
             ? `https://www.youtube.com/embed/${videoId}`
-            : rawSrc; // Fallback if parsing fails
+            : rawSrc;
         return (_jsx("div", { className: "my-6 flex justify-center", children: _jsx("iframe", { src: embedSrc, className: "w-full aspect-video rounded-lg shadow-sm", style: { border: 'none', maxWidth: '800px' }, allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowFullScreen: true, title: "YouTube video player" }) }, index));
     }
     if (block.type === 'attachment') {

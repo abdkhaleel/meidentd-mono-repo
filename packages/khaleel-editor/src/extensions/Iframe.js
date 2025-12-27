@@ -8,7 +8,7 @@ export default Node.create({
             allowFullscreen: true,
             HTMLAttributes: {
                 class: 'iframe-wrapper',
-                style: 'width: 100%; height: 400px; border: none;', // Default styles
+                style: 'width: 100%; height: 400px; border: none;',
             },
         };
     },

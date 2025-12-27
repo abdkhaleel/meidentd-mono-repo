@@ -1,9 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 export default (props) => {
-    // We store the "type" (info, warning, error) in attributes
     const type = props.node.attrs.type || 'info';
-    // Define styles based on type
     const styles = {
         info: { bg: '#eff6ff', border: '#3b82f6', icon: 'ℹ️', color: '#1e40af' },
         warning: { bg: '#fffbeb', border: '#f59e0b', icon: '⚠️', color: '#92400e' },
@@ -11,7 +9,6 @@ export default (props) => {
         success: { bg: '#f0fdf4', border: '#22c55e', icon: '✅', color: '#166534' },
     };
     const currentStyle = styles[type];
-    // Function to cycle through types when clicking the icon
     const toggleType = () => {
         const types = Object.keys(styles);
         const nextIndex = (types.indexOf(type) + 1) % types.length;

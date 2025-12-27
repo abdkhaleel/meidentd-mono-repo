@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEditor, EditorContent } from '@tiptap/react';
-import { BubbleMenu } from '@tiptap/react/menus'; // Tiptap v3
+import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import BubbleMenuExtension from '@tiptap/extension-bubble-menu';
@@ -41,7 +41,7 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
             }),
             AttachmentNode,
             Table.configure({
-                resizable: true, // Allow resizing columns
+                resizable: true,
             }),
             TableRow,
             TableHeader,
@@ -65,8 +65,7 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
         editorProps: {
             handleKeyDown: (view, event) => {
                 if (event.key === 'Tab') {
-                    event.preventDefault(); // STOP browser from focusing outside
-                    // Option A: If inside a List (Bullet/Ordered), nest the list (Indentation)
+                    event.preventDefault();
                     if (editor.isActive('bulletList') || editor.isActive('orderedList')) {
                         return editor.chain().focus().sinkListItem('listItem').run();
                     }
@@ -79,10 +78,8 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
                 if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
                     const file = event.dataTransfer.files[0];
                     if (file.type.startsWith('image/') && onUpload) {
-                        event.preventDefault(); // Stop browser from opening the file
-                        // Call the Upload Function provided by Next.js
+                        event.preventDefault();
                         onUpload(file).then((url) => {
-                            // Insert the image at the drop coordinates
                             const { schema } = view.state;
                             const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
                             if (coordinates) {
@@ -91,7 +88,7 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
                                 view.dispatch(transaction);
                             }
                         });
-                        return true; // We handled it
+                        return true;
                     }
                     else if (onUpload) {
                         event.preventDefault();
@@ -99,7 +96,6 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
                             const { schema } = view.state;
                             const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
                             if (coordinates) {
-                                // Create the Attachment Node with metadata
                                 const node = schema.nodes.attachment.create({
                                     src: url,
                                     fileName: file.name,
@@ -119,7 +115,6 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
                 const text = event.clipboardData?.getData('text/plain');
                 if (!text)
                     return false;
-                // Check for Google Drive Link
                 if (text.includes('drive.google.com') || text.includes('docs.google.com')) {
                     const getDriveId = (url) => {
                         const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -150,12 +145,8 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }) => {
     });
     if (!editor)
         return null;
-    return (_jsxs("div", { className: "khaleel-editor-container", children: [_jsx("div", { className: "mb-4", children: _jsx(Toolbar, { editor: editor, onUpload: onUpload }) }), editor && (_jsx(BubbleMenu, { editor: editor, 
-                // tippyOptions={{ duration: 100 }}
-                shouldShow: ({ editor, from, to }) => {
-                    // Only show if selection is text, NOT image, and not empty
+    return (_jsxs("div", { className: "khaleel-editor-container", children: [_jsx("div", { className: "mb-4", children: _jsx(Toolbar, { editor: editor, onUpload: onUpload }) }), editor && (_jsx(BubbleMenu, { editor: editor, shouldShow: ({ editor, from, to }) => {
                     return !editor.isActive('image') && !editor.state.selection.empty;
-                }, children: _jsxs("div", { className: "bubble-menu", children: [_jsx("button", { onClick: () => editor.chain().focus().toggleBold().run(), className: editor.isActive('bold') ? 'is-active' : '', children: "Bold" }), _jsx("button", { onClick: () => editor.chain().focus().toggleItalic().run(), className: editor.isActive('italic') ? 'is-active' : '', children: "Italic" }), _jsx("button", { onClick: () => editor.chain().focus().toggleStrike().run(), className: editor.isActive('strike') ? 'is-active' : '', children: "Strike" })] }) })), editor && (_jsx(BubbleMenu, { editor: editor, pluginKey: "imageMenu" // Unique ID so it doesn't conflict
-                , shouldShow: ({ editor }) => editor.isActive('image'), children: _jsx("div", { className: "bubble-menu image-menu", children: _jsx("button", { onClick: () => editor.chain().focus().deleteSelection().run(), className: "delete-btn", children: "Remove" }) }) })), editor && (_jsx(BubbleMenu, { editor: editor, pluginKey: "tableMenu", shouldShow: ({ editor }) => editor.isActive('table'), children: _jsxs("div", { className: "bubble-menu table-menu", children: [_jsx("button", { onClick: () => editor.chain().focus().addColumnBefore().run(), children: "+ Col Left" }), _jsx("button", { onClick: () => editor.chain().focus().addColumnAfter().run(), children: "+ Col Right" }), _jsx("button", { onClick: () => editor.chain().focus().deleteColumn().run(), className: "delete-btn", children: "x Col" }), _jsx("div", { className: "divider" }), _jsx("button", { onClick: () => editor.chain().focus().addRowBefore().run(), children: "+ Row Up" }), _jsx("button", { onClick: () => editor.chain().focus().addRowAfter().run(), children: "+ Row Down" }), _jsx("button", { onClick: () => editor.chain().focus().deleteRow().run(), className: "delete-btn", children: "x Row" }), _jsx("div", { className: "divider" }), _jsx("button", { onClick: () => editor.chain().focus().deleteTable().run(), className: "delete-btn", children: "Delete Table" })] }) })), _jsx(EditorContent, { editor: editor, className: "khaleel-content" })] }));
+                }, children: _jsxs("div", { className: "bubble-menu", children: [_jsx("button", { onClick: () => editor.chain().focus().toggleBold().run(), className: editor.isActive('bold') ? 'is-active' : '', children: "Bold" }), _jsx("button", { onClick: () => editor.chain().focus().toggleItalic().run(), className: editor.isActive('italic') ? 'is-active' : '', children: "Italic" }), _jsx("button", { onClick: () => editor.chain().focus().toggleStrike().run(), className: editor.isActive('strike') ? 'is-active' : '', children: "Strike" })] }) })), editor && (_jsx(BubbleMenu, { editor: editor, pluginKey: "imageMenu", shouldShow: ({ editor }) => editor.isActive('image'), children: _jsx("div", { className: "bubble-menu image-menu", children: _jsx("button", { onClick: () => editor.chain().focus().deleteSelection().run(), className: "delete-btn", children: "Remove" }) }) })), editor && (_jsx(BubbleMenu, { editor: editor, pluginKey: "tableMenu", shouldShow: ({ editor }) => editor.isActive('table'), children: _jsxs("div", { className: "bubble-menu table-menu", children: [_jsx("button", { onClick: () => editor.chain().focus().addColumnBefore().run(), children: "+ Col Left" }), _jsx("button", { onClick: () => editor.chain().focus().addColumnAfter().run(), children: "+ Col Right" }), _jsx("button", { onClick: () => editor.chain().focus().deleteColumn().run(), className: "delete-btn", children: "x Col" }), _jsx("div", { className: "divider" }), _jsx("button", { onClick: () => editor.chain().focus().addRowBefore().run(), children: "+ Row Up" }), _jsx("button", { onClick: () => editor.chain().focus().addRowAfter().run(), children: "+ Row Down" }), _jsx("button", { onClick: () => editor.chain().focus().deleteRow().run(), className: "delete-btn", children: "x Row" }), _jsx("div", { className: "divider" }), _jsx("button", { onClick: () => editor.chain().focus().deleteTable().run(), className: "delete-btn", children: "Delete Table" })] }) })), _jsx(EditorContent, { editor: editor, className: "khaleel-content" })] }));
 };
 export default KhaleelEditor;

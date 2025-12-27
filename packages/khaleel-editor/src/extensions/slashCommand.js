@@ -27,7 +27,6 @@ const getSuggestionItems = ({ query }) => {
             title: 'Image',
             command: ({ editor, range }) => {
                 editor.chain().focus().deleteRange(range).run();
-                // You can add a file picker trigger here later
                 alert("Drag & Drop an image to upload!");
             },
         },
@@ -53,14 +52,10 @@ const getSuggestionItems = ({ query }) => {
             command: ({ editor, range }) => {
                 const url = prompt('Enter Google Drive Video Link:');
                 if (url) {
-                    // 1. Convert "View" link to "Preview" link (Required for embedding)
-                    // Input:  https://drive.google.com/file/d/VIDEO_ID/view?usp=sharing
-                    // Output: https://drive.google.com/file/d/VIDEO_ID/preview
                     let embedUrl = url;
                     if (url.includes('drive.google.com') && url.includes('/view')) {
                         embedUrl = url.replace(/\/view.*/, '/preview');
                     }
-                    // 2. Insert the Iframe
                     editor.chain().focus()
                         .deleteRange(range)
                         .setIframe({ src: embedUrl })
@@ -158,7 +153,6 @@ export const SlashCommand = Extension.create({
                                 popup[0].hide();
                                 return true;
                             }
-                            // Delegates the key event to the React Component
                             return component.ref?.onKeyDown(props);
                         },
                         onExit() {

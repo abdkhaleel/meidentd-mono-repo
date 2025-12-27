@@ -11,7 +11,6 @@ export default Image.extend({
                     width: attributes.width,
                 }),
             },
-            // ✅ Ensure textAlign is stored
             textAlign: {
                 default: 'left',
                 renderHTML: attributes => ({

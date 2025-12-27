@@ -2,7 +2,7 @@ import { Node, mergeAttributes } from '@tiptap/core';
 export default Node.create({
     name: 'columnsContainer',
     group: 'block',
-    content: 'column+', // Must contain columns
+    content: 'column+',
     parseHTML() {
         return [{ tag: 'div[data-type="columns-container"]' }];
     },

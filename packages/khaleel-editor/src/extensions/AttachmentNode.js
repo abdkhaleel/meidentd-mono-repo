@@ -4,7 +4,7 @@ import AttachmentComponent from '../components/AttachmentComponent';
 export default Node.create({
     name: 'attachment',
     group: 'block',
-    atom: true, // It's a single unit, not editable text
+    atom: true,
     addAttributes() {
         return {
             src: { default: null },
