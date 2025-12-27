@@ -1,0 +1,15 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { NodeViewWrapper } from '@tiptap/react';
+export default (props) => {
+    const { fileName, fileSize, src, type } = props.node.attrs;
+    const downloadFile = () => {
+        window.open(src, '_blank');
+    };
+    // Check if it is a Google Drive Link
+    const isDrive = src.includes('drive.google.com') || src.includes('docs.google.com');
+    return (_jsx(NodeViewWrapper, { className: "attachment-card-wrapper", children: _jsxs("div", { className: `attachment-card ${isDrive ? 'is-drive' : ''}`, contentEditable: false, onClick: downloadFile, children: [_jsx("div", { className: "file-icon", children: isDrive ? (
+                    // Google Drive Logo SVG
+                    _jsxs("svg", { viewBox: "0 0 87.3 78", width: "24", height: "24", children: [_jsx("path", { d: "m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z", fill: "#0066da" }), _jsx("path", { d: "m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z", fill: "#00ac47" }), _jsx("path", { d: "m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z", fill: "#ea4335" }), _jsx("path", { d: "m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.4-4.5 1.2z", fill: "#00832d" }), _jsx("path", { d: "m59.8 53h-27.5l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.5c1.6 0 3.15-.4 4.5-1.2z", fill: "#2684fc" }), _jsx("path", { d: "m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z", fill: "#ffba00" })] })) : (
+                    // Generic File Icon
+                    _jsxs("svg", { viewBox: "0 0 24 24", width: "24", height: "24", stroke: "currentColor", strokeWidth: "2", fill: "none", strokeLinecap: "round", strokeLinejoin: "round", color: "#555", children: [_jsx("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }), _jsx("polyline", { points: "14 2 14 8 20 8" })] })) }), _jsxs("div", { className: "file-info", children: [_jsx("div", { className: "file-name", children: isDrive && fileName === 'file' ? 'Google Drive File' : fileName }), _jsx("div", { className: "file-meta", children: isDrive ? 'GOOGLE DRIVE' : `${type?.toUpperCase()} • ${fileSize}` })] }), _jsx("div", { className: "download-btn", children: isDrive ? '↗' : '↓' })] }) }));
+};

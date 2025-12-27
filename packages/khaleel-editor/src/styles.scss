@@ -1,0 +1,448 @@
+/* Placeholder Text (Greyed out) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* The Floating Bubble Menu */
+.bubble-menu {
+  display: flex;
+  background-color: #0d0d0d;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  
+  button {
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    border-radius: 0.3rem;
+
+    &:hover {
+      background-color: #333;
+    }
+
+    &.is-active {
+      background-color: #fff;
+      color: #000;
+    }
+  }
+}
+
+/* Specific styles for the Image Menu */
+.bubble-menu.image-menu {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.bubble-menu .delete-btn {
+  color: #dc2626; /* Red color */
+  font-weight: bold;
+}
+
+.bubble-menu .delete-btn:hover {
+  background-color: #fee2e2; /* Light red bg */
+}
+
+/* Ensure images in editor don't overflow */
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Add a blue border when image is selected so user knows */
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid #60a5fa;
+}
+
+/* Slash Command Menu */
+.slash-items {
+  background: #FFF;
+  color: #000;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 0.2rem;
+  width: 200px;
+  overflow: hidden;
+}
+
+.slash-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  border-radius: 0.25rem;
+
+  &:hover,
+  &.is-selected {
+    background-color: #f3f4f6;
+    color: #000;
+  }
+}
+
+
+/* Restore List Styles for Tiptap */
+.ProseMirror {
+  ul, ol {
+    padding: 0 1rem;
+    margin: 1rem 1rem 1rem 1.5rem; /* Indent the list */
+  }
+
+  ul {
+    list-style-type: disc; /* Bullet points */
+  }
+
+  ol {
+    list-style-type: decimal; /* Numbers 1. 2. 3. */
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* YouTube Video Container */
+.ProseMirror div[data-youtube-video] {
+  cursor: move;
+  padding-right: 24px;
+}
+
+.ProseMirror iframe {
+  border: 8px solid #000;
+  border-radius: 4px;
+  min-width: 200px;
+  min-height: 200px;
+  display: block;
+  outline: 0px solid transparent;
+}
+
+/* Selected Video State */
+.ProseMirror .ProseMirror-selectednode iframe {
+  transition: outline 0.15s;
+  outline: 3px solid #60a5fa; /* Blue border when selected */
+}
+
+/* Attachment Card Styles */
+.attachment-card-wrapper {
+  margin: 1rem 0;
+  user-select: none; /* Prevent text selection inside */
+}
+
+.attachment-card {
+  display: flex;
+  align-items: center;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  max-width: 400px;
+}
+
+.attachment-card:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.attachment-card .file-icon {
+  background: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.attachment-card .file-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.attachment-card .file-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.attachment-card .file-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.attachment-card .download-btn {
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+/* --- TABLE STYLES --- */
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  border: 1px solid #ced4da;
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 6px 8px;
+  position: relative;
+  vertical-align: top;
+}
+
+.ProseMirror th {
+  background-color: #f1f3f5;
+  font-weight: bold;
+  text-align: left;
+}
+
+.ProseMirror .selectedCell:after {
+  background: rgba(200, 200, 255, 0.4);
+  content: "";
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.ProseMirror .column-resize-handle {
+  background-color: #adf;
+  bottom: -2px;
+  pointer-events: none;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 4px;
+}
+
+/* Table Menu Styling */
+.bubble-menu.table-menu {
+  display: flex;
+  gap: 5px;
+  background: white;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.bubble-menu.table-menu button {
+  font-size: 10px;
+  padding: 4px 6px;
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #e9ecef;
+}
+
+.bubble-menu.table-menu .divider {
+  width: 1px;
+  background: #ddd;
+  margin: 0 2px;
+}
+
+.bubble-menu.table-menu .delete-btn {
+  color: #e03131;
+  background: #fff5f5;
+  border-color: #ffc9c9;
+}
+
+/* --- FIXED TOOLBAR STYLES --- */
+.khaleel-editor-container {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden; /* Keeps toolbar inside rounded corners */
+}
+
+.khaleel-toolbar-fixed {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+  background-color: #f8fafc; /* Light grey background */
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 50; /* Stays on top of content */
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Toolbar Buttons */
+.khaleel-toolbar-fixed button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.khaleel-toolbar-fixed button:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.khaleel-toolbar-fixed button.is-active {
+  background-color: #e0f2fe; /* Light blue active state */
+  color: #0284c7; /* Blue icon */
+}
+
+.khaleel-toolbar-fixed button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.khaleel-toolbar-fixed .divider {
+  width: 1px;
+  height: 24px;
+  background-color: #cbd5e1;
+  margin: 0 8px;
+}
+
+div[data-tippy-root] {
+  z-index: 9999 !important; 
+  pointer-events: auto;    
+}
+
+.bubble-menu {
+  position: relative;
+  z-index: 100;
+}
+
+.khaleel-editor-container {
+  overflow: visible !important; 
+}
+/* Image Resizer Styles */
+.image-resizer-wrapper {
+  transition: outline 0.1s;
+  line-height: 0; /* Fix ghost spacing */
+  max-width: 100%;
+}
+
+.image-resizer-wrapper:hover {
+  outline: 2px solid #3b82f6;
+}
+
+.image-resizer-handle {
+  width: 12px;
+  height: 12px;
+  background-color: #3b82f6;
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  cursor: nwse-resize; /* Diagonal arrow cursor */
+  border-radius: 50%;
+  border: 2px solid white;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s;
+}
+
+.image-resizer-wrapper:hover .image-resizer-handle {
+  opacity: 1; /* Show on hover */
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed; /* <--- CRITICAL for column resizing */
+  width: 100%;
+}
+
+.ProseMirror td, .ProseMirror th {
+  position: relative;
+  vertical-align: top;
+  box-sizing: border-box;
+  overflow: hidden; /* prevents content from breaking width */
+}
+
+/* --- CODE BLOCK HIGHLIGHTING (Atom One Dark Theme) --- */
+pre {
+  background: #282c34;
+  color: #abb2bf;
+  font-family: 'Fira Code', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+/* Syntax Colors */
+.hljs-comment, .hljs-quote { color: #5c6370; font-style: italic; }
+.hljs-doctag, .hljs-keyword, .hljs-formula { color: #c678dd; }
+.hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst { color: #e06c75; }
+.hljs-literal { color: #56b6c2; }
+.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta-string { color: #98c379; }
+.hljs-built_in, .hljs-class .hljs-title { color: #e6c07b; }
+.hljs-attr, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-number { color: #d19a66; }
+.hljs-symbol, .hljs-bullet, .hljs-link, .hljs-meta, .hljs-selector-id, .hljs-title { color: #61aeee; }
+
+/* --- COLUMNS LAYOUT --- */
+div[data-type="columns-container"] {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+div[data-type="column"] {
+  flex: 1; /* Equal width */
+  min-width: 0; /* Prevents overflow issues */
+  
+  /* Visual guide inside the editor only */
+  border: 1px dashed #e2e8f0; 
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* On mobile, stack them vertically */
+@media (max-width: 640px) {
+  div[data-type="columns-container"] {
+    flex-direction: column;
+  }
+}
