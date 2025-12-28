@@ -98,50 +98,65 @@ function ProductScrollSection() {
 
   useEffect(() => {
     return smoothProgress.on("change", (latest) => {
-      setActiveIndex(Math.min(Math.floor(latest * PRODUCTS.length), PRODUCTS.length - 1));
+      const newIndex = Math.min(Math.floor(latest * PRODUCTS.length), PRODUCTS.length - 1);
+      setActiveIndex(newIndex);
     });
   }, [smoothProgress]);
+
+  const handleScrollTo = (index: number) => {
+    if (targetRef.current) {
+        const scrollHeight = targetRef.current.scrollHeight;
+        const sectionHeight = scrollHeight / PRODUCTS.length;
+        window.scrollTo({ 
+            top: targetRef.current.offsetTop + (sectionHeight * index), 
+            behavior: 'smooth' 
+        });
+    }
+  };
 
   return (
     <section ref={targetRef} className="relative h-[400vh] bg-[#0b1120]">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
-        <div className="absolute inset-0">
-            <div className="absolute top-0 right-0 w-1/2 h-full bg-linear-to-l from-blue-900/10 to-transparent" />
-            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-linear-to-t from-black to-transparent" />
+        
+        <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent" />
+            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
             <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>
         </div>
 
-        <div className="container mx-auto px-6 md:px-12 relative z-10 h-full flex flex-col justify-center">
+        <div className="container mx-auto px-4 md:px-12 relative z-10 h-full flex flex-col justify-center">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 h-[80vh] items-center">
-                <div className="lg:col-span-4 flex flex-col justify-center border-l border-white/10 pl-8 md:pl-12 space-y-8">
-                    {PRODUCTS.map((prod, idx) => ( 
-                    <button
-                        key={prod.id}
-                        onClick={() => {
-                            if (targetRef.current) {
-                                const scrollHeight = targetRef.current.scrollHeight;
-                                const sectionHeight = scrollHeight / PRODUCTS.length;
-                                window.scrollTo({ top: targetRef.current.offsetTop + (sectionHeight * idx), behavior: 'smooth' });
-                            }
-                        }}
-                        className={`group text-left transition-all duration-500 ${idx === activeIndex ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
-                      >
-                        <div className="flex items-baseline gap-4 mb-2">
-                          <span className={`font-mono text-xs font-bold tracking-widest ${idx === activeIndex ? 'text-blue-400' : 'text-white'}`}>
-                            {prod.letter}
-                          </span>
-                          <h3 className="font-display text-xl md:text-2xl font-bold text-white tracking-tight group-hover:translate-x-2 transition-transform duration-300">
-                            {prod.name}
-                          </h3>
-                        </div>
-                        <div className={`h-px bg-blue-500 transition-all duration-500 ${idx === activeIndex ? 'w-full max-w-[200px]' : 'w-0'}`} />
-                      </button>
-                    ))}
+            <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 h-full lg:h-[80vh] items-center justify-between py-6 lg:py-0">
+                
+                <div className="order-2 lg:order-1 lg:col-span-4 w-full lg:w-auto">
+                    <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-4 lg:gap-8 pb-4 lg:pb-0 px-2 lg:px-0 lg:border-l lg:border-white/10 lg:pl-12 no-scrollbar mask-gradient-sides lg:mask-none">
+                        {PRODUCTS.map((prod, idx) => ( 
+                        <button
+                            key={prod.id}
+                            onClick={() => handleScrollTo(idx)}
+                            className={`group flex-shrink-0 lg:flex-shrink text-left transition-all duration-500 relative
+                                ${idx === activeIndex ? 'opacity-100' : 'opacity-40 hover:opacity-70'}
+                            `}
+                          >
+                            <div className="flex items-baseline gap-2 lg:gap-4 mb-2">
+                              <span className={`font-mono text-[10px] lg:text-xs font-bold tracking-widest ${idx === activeIndex ? 'text-blue-400' : 'text-white'}`}>
+                                {prod.letter}
+                              </span>
+                              <h3 className="font-display text-sm md:text-lg lg:text-2xl font-bold text-white tracking-tight whitespace-nowrap lg:group-hover:translate-x-2 transition-transform duration-300">
+                                {prod.name}
+                              </h3>
+                            </div>
+                            
+                            <div className={`h-0.5 lg:h-px bg-blue-500 transition-all duration-500 rounded-full
+                                ${idx === activeIndex ? 'w-full lg:max-w-[200px]' : 'w-0'}
+                            `} />
+                          </button>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="hidden lg:flex lg:col-span-8 items-center justify-center relative pl-12">
+                <div className="order-1 lg:order-2 lg:col-span-8 flex items-center justify-center relative w-full h-full lg:h-auto lg:pl-12">
                     <AnimatePresence mode='wait'>
                         <motion.div
                             key={activeIndex}
@@ -149,29 +164,29 @@ function ProductScrollSection() {
                             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                             exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                            className="relative w-full max-w-2xl"
+                            className="relative w-full max-w-2xl flex flex-col justify-center h-full lg:block"
                         >
-                            <div className="absolute -top-24 -left-12 text-[12rem] font-bold text-white/2 select-none font-mono tracking-tighter">
+                            <div className="hidden md:block absolute -top-12 md:-top-24 -left-6 md:-left-12 text-[8rem] md:text-[12rem] font-bold text-white/5 select-none font-mono tracking-tighter pointer-events-none">
                                 {PRODUCTS[activeIndex].letter}
                             </div>
 
-                            <div className="space-y-8 relative z-10">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 border border-blue-500/30 bg-blue-500/10 rounded-full text-blue-400 text-xs font-mono font-bold uppercase tracking-widest">
+                            <div className="space-y-4 md:space-y-8 relative z-10 pt-4 lg:pt-0">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 border border-blue-500/30 bg-blue-500/10 rounded-full text-blue-400 text-[10px] md:text-xs font-mono font-bold uppercase tracking-widest">
                                     <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
                                     Specification
                                 </div>
                                 
-                                <h2 className="font-display text-5xl font-bold text-white tracking-tight leading-tight">
+                                <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
                                     {PRODUCTS[activeIndex].name}
                                 </h2>
                                 
-                                <p className="font-sans text-xl text-slate-400 leading-relaxed font-light max-w-xl border-l-2 border-white/10 pl-6">
+                                <p className="font-sans text-base md:text-lg lg:text-xl text-slate-400 leading-relaxed font-light max-w-xl border-l-2 border-white/10 pl-4 md:pl-6">
                                     {PRODUCTS[activeIndex].description}
                                 </p>
 
-                                <div className="pt-4">
+                                <div className="pt-2 md:pt-4">
                                     <Link href="/products" className="inline-flex items-center gap-3 text-white font-medium group hover:text-blue-400 transition-colors">
-                                        <span className="font-mono text-sm uppercase tracking-wider border-b border-white/30 pb-1 group-hover:border-blue-400 transition-all">View Datasheet</span>
+                                        <span className="font-mono text-xs md:text-sm uppercase tracking-wider border-b border-white/30 pb-1 group-hover:border-blue-400 transition-all">View Datasheet</span>
                                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
