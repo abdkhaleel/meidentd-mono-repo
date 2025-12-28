@@ -996,9 +996,7 @@ export default function PageEditor() {
             </span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10"></div>
          </div>
-         <div className="bg-[#161f36]/20 border border-white/5 rounded-xl p-6">
-            <AddSectionForm pageId={page.id} onSectionAdded={fetchPageData} />
-         </div>
+          <AddSectionForm pageId={page.id} onSectionAdded={fetchPageData} />
       </div>
     </div>
   );
