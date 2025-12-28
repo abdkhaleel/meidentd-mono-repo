@@ -21,6 +21,20 @@ export async function GET(request: Request) {
       take: 100, 
     });
 
+    // ---- FOR TESTING (1 Minute) ----
+
+    // const thresholdTime = new Date(Date.now() - 1 * 60 * 1000);
+
+    // const abandonedFiles = await prisma.pendingUpload.findMany({
+    //   where: {
+    //     createdAt: {
+    //       lt: thresholdTime,
+    //     },
+    //   },
+    //   select: { id: true, fileUrl: true },
+    //   take: 100, 
+    // });
+
     if (abandonedFiles.length === 0) {
       return NextResponse.json({ message: 'No files to clean up.' });
     }
