@@ -1,32 +1,45 @@
 import Link from 'next/link';
-import { Heart, Code2 } from 'lucide-react';
+import { Cpu, Activity, Zap } from 'lucide-react';
 
 export default function AdminFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full mt-auto z-10">
+    <footer className="w-full mt-auto z-10 relative">
       
-
-      <div className="bg-brand-secondary border-t-4 border-brand-primary shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+      
+      <div className="bg-[#0f1629]/80 backdrop-blur-md border-t border-white/5 relative overflow-hidden">
         
-        <div className="max-w-7xl mx-auto px-6 py-5">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-6 py-4 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
             
-            <div className="flex items-center space-x-2 text-xs text-brand-bright/70">
-              <Code2 size={14} />
-              <span>
-                &copy; {currentYear} <span className="font-semibold text-white">Meiden CMS</span>. All rights reserved.
-              </span>
+            <div className="flex flex-col md:flex-row items-center md:items-baseline gap-2 md:gap-6 text-xs text-slate-500 font-mono">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                <span className="tracking-widest uppercase">System Operational</span>
+              </div>
+              
+              <div className="hidden md:block w-px h-3 bg-white/10" />
+              
+              <div className="flex items-center gap-1.5 group transition-colors hover:text-blue-400">
+                <Cpu size={12} className="opacity-70" />
+                <span>
+                  &copy; {currentYear} <span className="font-bold text-slate-300 group-hover:text-white transition-colors">Meiden CMS</span>
+                </span>
+                <span className="opacity-50">v2.4.0</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs text-gray-300 font-medium tracking-wide">
-              <span className="opacity-80">Made</span>
-              <span className="opacity-80">by</span>
+            <div className="flex items-center gap-3 text-xs">
               
               
-                <span className="font-bold border-b border-transparent group-hover:border-brand-primary pb-0.5">
-                  MRA Softec Private Limited
+                <span className="text-slate-400 font-medium group-hover:text-blue-300 transition-colors">Made by</span>
+                <span className="flex items-center gap-1.5 font-bold text-slate-200 group-hover:text-white transition-colors">
+                  <Zap size={10} className="text-blue-500 group-hover:fill-blue-400 transition-all" />
+                  MRA Softec
                 </span>
             </div>
 

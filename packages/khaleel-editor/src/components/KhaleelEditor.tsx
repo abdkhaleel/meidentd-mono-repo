@@ -74,7 +74,9 @@ const KhaleelEditor = ({ initialContent, onSave, onUpload }: KhaleelEditorProps)
     content: initialContent || '',
     immediatelyRender: false,
     editorProps: {
-      
+      attributes: {
+        class: 'focus:outline-none',
+      },
       handleKeyDown: (view, event): boolean => {
         if (event.key === 'Tab') {
           event.preventDefault(); 

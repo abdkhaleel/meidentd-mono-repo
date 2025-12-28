@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Edit, Plus, Globe, Loader2, FileText, Trash2, 
-  AlertTriangle, X, Type, Search, LayoutTemplate 
+  AlertTriangle, X, Type, Search, LayoutTemplate, 
+  Terminal, ShieldAlert, ChevronRight, Hash
 } from 'lucide-react';
 
 interface Page {
@@ -30,52 +32,65 @@ function DeleteModal({
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-      <div 
-        className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" 
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
         onClick={onClose}
       />
       
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100 animate-in zoom-in-95 duration-200">
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="relative bg-[#0f1629] border border-red-500/30 rounded-2xl w-full max-w-md overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.15)]"
+      >
+        <div className="h-1 w-full bg-gradient-to-r from-red-600 via-orange-500 to-red-600" />
         
-        <div className="flex flex-col items-center text-center p-8 pb-6">
-          <div className="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
-            <AlertTriangle size={24} strokeWidth={2.5} />
+        <div className="p-8 pb-6 flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mb-6 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+            <ShieldAlert size={32} />
           </div>
           
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Delete this page?</h3>
-          <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
-            You are about to delete <strong className="text-gray-800">"{pageTitle}"</strong>. 
-            This action cannot be undone.
+          <h3 className="text-xl font-display font-bold text-white mb-2 tracking-wide">CONFIRM DELETION</h3>
+          <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
+            You are initiating a destructive protocol on <span className="text-red-400 font-mono bg-red-500/10 px-1 rounded">{pageTitle}</span>. 
           </p>
         </div>
 
         <div className="px-8 pb-6">
-          <div className="bg-red-50 border border-red-100 rounded-lg p-3 text-left">
-            <p className="text-xs font-bold text-red-800 uppercase tracking-wider mb-1">Warning</p>
-            <p className="text-xs text-red-700">
-              All sections, images, and content associated with this URL slug will be permanently removed.
-            </p>
+          <div className="bg-red-950/30 border border-red-500/20 rounded-lg p-4 text-left">
+            <div className="flex items-start gap-3">
+                <AlertTriangle size={16} className="text-red-500 mt-0.5 shrink-0" />
+                <div>
+                    <p className="text-[10px] font-bold text-red-400 uppercase tracking-wider mb-1">Irreversible Action</p>
+                    <p className="text-xs text-red-200/70 leading-relaxed">
+                    Target data structure and associated sub-routines (images, content blocks) will be permanently purged from the mainframe.
+                    </p>
+                </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex border-t border-gray-100 bg-gray-50">
+        <div className="flex border-t border-white/5 bg-black/20">
           <button 
             onClick={onClose}
             disabled={isDeleting}
-            className="flex-1 px-4 py-4 text-gray-700 font-medium hover:bg-gray-100 transition-colors border-r border-gray-100"
+            className="flex-1 px-4 py-4 text-slate-400 font-mono text-xs hover:text-white hover:bg-white/5 transition-colors border-r border-white/5"
           >
-            Cancel
+            CANCEL_PROTOCOL
           </button>
           <button 
             onClick={onConfirm}
             disabled={isDeleting}
-            className="flex-1 px-4 py-4 text-red-600 font-bold hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-4 text-red-400 font-mono text-xs font-bold hover:bg-red-500/10 hover:text-red-300 transition-colors flex items-center justify-center gap-2"
           >
-            {isDeleting ? <Loader2 className="animate-spin" size={18} /> : <Trash2 size={18} />}
-            Delete Page
+            {isDeleting ? <Loader2 className="animate-spin" size={14} /> : <Trash2 size={14} />}
+            <span>EXECUTE_DELETE</span>
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -168,22 +183,28 @@ export default function ManagePages() {
 
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-8">
       
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-100 pb-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5 pb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Pages Manager</h1>
-          <p className="text-gray-500 mt-2">Create and organize the structural pages of your website.</p>
+          <h1 className="text-3xl font-display font-bold text-white tracking-tight">Struct Control</h1>
+          <p className="text-slate-400 mt-2 font-light">Initialize new vectors or modify existing page schemas.</p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono">
+            <Terminal size={12} />
+            <span>WRITE_ACCESS: GRANTED</span>
         </div>
       </div>
       
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md">
-        <div className="bg-gradient-to-r from-gray-50 to-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="relative group rounded-2xl bg-[#0b1120]/40 border border-white/5 overflow-hidden transition-all hover:border-blue-500/30">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] pointer-events-none" />
+        
+        <div className="px-6 py-4 border-b border-white/5 bg-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-brand-primary/10 rounded-md text-brand-primary">
-              <Plus size={18} />
+            <div className="p-1.5 bg-blue-500/20 rounded text-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.2)]">
+              <Plus size={16} />
             </div>
-            <h3 className="font-bold text-gray-800">Create New Page</h3>
+            <h3 className="font-bold text-slate-200 text-sm tracking-wide uppercase font-mono">Initialize New Page</h3>
           </div>
         </div>
         
@@ -191,35 +212,35 @@ export default function ManagePages() {
           <form onSubmit={handleCreatePage} className="flex flex-col lg:flex-row gap-6 items-start lg:items-end">
             
             <div className="w-full lg:flex-1 space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Page Title</label>
-              <div className="relative group">
+              <label className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider ml-1">Display Title</label>
+              <div className="relative group/input">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Type size={16} className="text-gray-400 group-focus-within:text-brand-primary transition-colors" />
+                  <Type size={16} className="text-slate-600 group-focus-within/input:text-blue-400 transition-colors" />
                 </div>
                 <input
                   type="text"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="e.g. About Us"
+                  placeholder="e.g. Mission Overview"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-[#0f1629] border border-white/10 rounded-lg focus:bg-blue-900/10 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 outline-none transition-all text-white placeholder-slate-600 text-sm font-sans"
                 />
               </div>
             </div>
 
             <div className="w-full lg:flex-1 space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">URL Slug</label>
-              <div className="relative group">
+              <label className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider ml-1">Access Vector (Slug)</label>
+              <div className="relative group/input">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Globe size={16} className="text-gray-400 group-focus-within:text-brand-primary transition-colors" />
+                  <Hash size={16} className="text-slate-600 group-focus-within/input:text-emerald-400 transition-colors" />
                 </div>
                 <input
                   type="text"
                   value={newSlug}
                   onChange={(e) => setNewSlug(e.target.value)}
-                  placeholder="about-us"
+                  placeholder="mission-overview"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-none transition-all font-mono text-sm text-gray-600"
+                  className="w-full pl-10 pr-4 py-3 bg-[#0f1629] border border-white/10 rounded-lg focus:bg-emerald-900/10 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 outline-none transition-all font-mono text-sm text-slate-300 placeholder-slate-600"
                 />
               </div>
             </div>
@@ -229,128 +250,147 @@ export default function ManagePages() {
                 type="submit" 
                 disabled={isSubmitting}
                 className={`
-                  w-full lg:w-auto px-6 py-2.5 rounded-lg font-bold text-white shadow-sm flex items-center justify-center gap-2 transition-all
+                  w-full lg:w-auto px-6 py-3 rounded-lg font-bold text-white shadow-lg flex items-center justify-center gap-2 transition-all duration-300
                   ${isSubmitting 
-                    ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-brand-primary hover:bg-brand-deep hover:shadow-md hover:-translate-y-0.5'
+                    ? 'bg-slate-700 cursor-wait opacity-50' 
+                    : 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-cyan-400 hover:shadow-blue-500/20'
                   }
                 `}
               >
                 {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <Plus size={18} strokeWidth={3} />}
-                <span>Create Page</span>
+                <span className="font-mono text-xs uppercase tracking-wider">Deploy</span>
               </button>
             </div>
           </form>
 
-          {error && (
-            <div className="mt-4 p-4 bg-red-50 border border-red-100 rounded-lg flex items-center text-red-700 text-sm animate-in fade-in slide-in-from-top-2">
-              <AlertTriangle size={18} className="mr-2 flex-shrink-0" />
-              {error}
-            </div>
-          )}
+          <AnimatePresence>
+            {error && (
+                <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center text-red-300 text-sm"
+                >
+                    <AlertTriangle size={16} className="mr-2 flex-shrink-0 text-red-500" />
+                    {error}
+                </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[300px]">
-        <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+      <div className="flex flex-col min-h-[400px]">
+        <div className="px-2 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <LayoutTemplate size={20} className="text-gray-400" />
-            <h2 className="font-bold text-lg text-gray-800">All Pages</h2>
-            <span className="bg-gray-100 text-gray-600 text-xs font-bold px-2.5 py-0.5 rounded-full ml-2">
+            <LayoutTemplate size={20} className="text-blue-500" />
+            <h2 className="font-bold text-lg text-white tracking-tight">Active Directories</h2>
+            <div className="flex items-center justify-center px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-mono font-bold min-w-[24px]">
               {pages.length}
-            </span>
+            </div>
           </div>
         </div>
 
         {loading && pages.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-3" />
-            <p className="text-gray-400 text-sm">Loading page list...</p>
+          <div className="flex-1 flex flex-col items-center justify-center py-20 bg-[#0f1629]/30 rounded-2xl border border-white/5 border-dashed">
+            <div className="relative">
+                <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+                <div className="absolute inset-0 flex items-center justify-center text-xs text-blue-500 font-mono">
+                    <Loader2 size={16} className="animate-spin" />
+                </div>
+            </div>
+            <p className="text-slate-500 text-xs font-mono mt-4 uppercase tracking-widest animate-pulse">Scanning database...</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-gray-50/50 border-b border-gray-100 text-xs uppercase text-gray-500 font-bold tracking-wider">
-                  <th className="px-6 py-4 rounded-tl-lg">Page Name</th>
-                  <th className="px-6 py-4">Live URL</th>
-                  <th className="px-6 py-4 text-right rounded-tr-lg">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {pages.map((page) => (
-                  <tr key={page.id} className="group hover:bg-blue-50/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 rounded-lg bg-brand-primary/5 text-brand-primary flex items-center justify-center mr-4 group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300">
-                          <FileText size={20} />
+          <div className="grid gap-3">
+            <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 bg-white/5 rounded-lg border border-white/5 text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
+                <div className="col-span-5">Identity</div>
+                <div className="col-span-4">Public Uplink</div>
+                <div className="col-span-3 text-right">Protocols</div>
+            </div>
+
+            <div className="space-y-3">
+                <AnimatePresence mode='popLayout'>
+                    {pages.map((page, index) => (
+                    <motion.div 
+                        key={page.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05 } }}
+                        exit={{ opacity: 0, x: 20 }}
+                        className="group relative md:grid md:grid-cols-12 md:gap-4 md:items-center bg-[#161f36]/40 backdrop-blur-sm border border-white/5 hover:border-blue-500/30 rounded-xl p-4 transition-all duration-300 hover:bg-[#161f36]/80 hover:shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+                    >
+                        <div className="col-span-5 flex items-center mb-3 md:mb-0">
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-white/5 to-white/0 border border-white/10 text-slate-400 flex items-center justify-center mr-4 group-hover:text-blue-400 group-hover:border-blue-500/30 transition-all duration-300">
+                                <FileText size={18} />
+                            </div>
+                            <div>
+                                <p className="font-bold text-slate-200 group-hover:text-white transition-colors">
+                                {page.title}
+                                </p>
+                                <p className="text-[10px] font-mono text-slate-600 hidden md:block">
+                                ID: <span className="text-slate-500">{page.id.substring(0, 8)}...</span>
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 group-hover:text-brand-primary transition-colors">
-                            {page.title}
-                          </p>
-                          <p className="text-xs text-gray-400">ID: {page.id.substring(0, 8)}...</p>
+
+                        <div className="col-span-4 mb-4 md:mb-0">
+                            <a 
+                                href={`/${page.slug}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/30 border border-white/5 text-slate-400 text-xs font-mono hover:text-blue-400 hover:border-blue-500/30 transition-all group/link w-full md:w-auto"
+                            >
+                                <Globe size={12} className="opacity-50 group-hover/link:opacity-100" />
+                                <span className="truncate max-w-[150px]">/{page.slug}</span>
+                                <ChevronRight size={10} className="ml-auto opacity-0 group-hover/link:opacity-100 -translate-x-2 group-hover/link:translate-x-0 transition-all" />
+                            </a>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <a 
-                        href={`/${page.slug}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-gray-600 text-sm font-mono hover:bg-white hover:shadow-sm hover:text-brand-primary border border-transparent hover:border-gray-200 transition-all"
-                      >
-                        <Globe size={12} className="mr-2 opacity-50" />
-                        /{page.slug}
-                      </a>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex justify-end items-center gap-3">
-                        <Link 
-                          href={`/admin/pages/edit/${page.slug}`}
-                          className="flex items-center px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-primary hover:text-brand-primary hover:bg-brand-primary/5 transition-all"
-                        >
-                          <Edit size={14} className="mr-2" />
-                          Edit
-                        </Link>
-                        
-                        <button
-                          onClick={() => setPageToDelete(page)}
-                          className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                          title="Delete Page"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+
+                        <div className="col-span-3 flex justify-end items-center gap-3 border-t border-white/5 pt-3 md:border-0 md:pt-0">
+                            <Link 
+                                href={`/admin/pages/edit/${page.slug}`}
+                                className="flex items-center px-4 py-2 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-bold font-mono border border-blue-500/20 hover:bg-blue-500/20 hover:border-blue-500/40 transition-all"
+                            >
+                                <Edit size={12} className="mr-2" />
+                                EDIT
+                            </Link>
+                            
+                            <button
+                                onClick={() => setPageToDelete(page)}
+                                className="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                title="Delete Page"
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                        </div>
+                    </motion.div>
+                    ))}
+                </AnimatePresence>
+
                 {pages.length === 0 && (
-                  <tr>
-                    <td colSpan={3} className="px-6 py-16 text-center">
-                      <div className="flex flex-col items-center justify-center">
-                        <div className="bg-gray-100 p-4 rounded-full mb-3">
-                          <Search className="text-gray-400" size={24} />
-                        </div>
-                        <p className="text-gray-900 font-medium">No pages found</p>
-                        <p className="text-gray-500 text-sm mt-1">Get started by creating your first page above.</p>
+                  <div className="text-center py-16 border border-white/5 rounded-2xl bg-white/[0.02]">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800/50 mb-4 text-slate-600">
+                        <Search size={24} />
                       </div>
-                    </td>
-                  </tr>
+                      <p className="text-slate-300 font-medium">System Empty</p>
+                      <p className="text-slate-500 text-sm mt-1">Initialize your first structure above.</p>
+                  </div>
                 )}
-              </tbody>
-            </table>
+            </div>
           </div>
         )}
       </div>
 
-      <DeleteModal 
-        isOpen={!!pageToDelete}
-        onClose={() => setPageToDelete(null)}
-        onConfirm={handleDeletePage}
-        pageTitle={pageToDelete?.title || ''}
-        isDeleting={isDeleting}
-      />
+      <AnimatePresence>
+        {pageToDelete && (
+            <DeleteModal 
+                isOpen={!!pageToDelete}
+                onClose={() => setPageToDelete(null)}
+                onConfirm={handleDeletePage}
+                pageTitle={pageToDelete?.title || ''}
+                isDeleting={isDeleting}
+            />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
