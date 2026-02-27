@@ -107,10 +107,10 @@ export default function Footer() {
             </div>
 
             {/* Bottom Footer */}
-            <div className="border-t border-gray-300 bg-gray-100">
+            <div className="border-t border-gray-300" style={{ backgroundColor: '#113388' }}>
                 <div className="container mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
-                    <div className="flex flex-col md:flex-row items-center gap-4 text-xs font-medium text-gray-600 uppercase tracking-wide">
+                    <div className="flex flex-col md:flex-row items-center gap-4 text-xs font-medium text-gray-100 uppercase tracking-wide">
                         <span>&copy; {currentYear} Meiden T&D (India) Ltd.</span>
                         <span className="hidden md:block text-gray-400">|</span>
                         <span>All Rights Reserved.</span>
@@ -121,7 +121,7 @@ export default function Footer() {
                             href="https://www.meidensha.com/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex items-center gap-2 text-xs font-medium text-gray-600 hover:text-blue-700 transition-colors"
+                            className="group flex items-center gap-2 text-xs font-medium text-gray-400 hover:text-blue-700 transition-colors"
                         >
                             <span className="uppercase tracking-widest">Meidensha Global</span>
                             <ExternalLink size={12} className="opacity-50 group-hover:opacity-100" />
